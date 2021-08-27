@@ -25,7 +25,7 @@ def elu(x, _alpha):
     return x if x > 0.0 else _alpha * (exp(x) - 1)
 
 
-def soft_max(x):
+def softmax(x):
     if not isinstance(x, list):
         return [0.0]
     else:
@@ -36,3 +36,17 @@ def soft_max(x):
         for value in x:
             values.append(exp(value) / value_sum)
         return values
+
+
+def activate_map(_activate):
+    activates = set()
+    activates.add("sigmoid")
+    activates.add("tanh")
+    activates.add("relu")
+    activates.add("leak_relu")
+    activates.add("elu")
+    activates.add("softmax")
+    if _activate in activates:
+        return eval(_activate)
+    else:
+        return None
