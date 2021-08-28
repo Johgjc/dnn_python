@@ -1,6 +1,5 @@
 import random
 import os
-from matrix import Matrix
 
 
 class Vector:
