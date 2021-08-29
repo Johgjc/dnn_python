@@ -31,14 +31,20 @@ class Vector:
         self.__value[_index] = _value
 
     def __mul__(self, _other):
-        if not isinstance(_other, Vector):
+        if isinstance(_other, Vector):
+            if not _other.size == self.__size:
+                raise ValueError("Different size between two vectors with {} and {}".format(_other.size, self.__size))
+            result = 0.0
+            for index in range(0, self.__size):
+                result += self.__value[index] * _other[index]
+            return result
+        elif str(_other).isdigit():
+            result = Vector.generate(self.__size, False, 0.0)
+            for index in range(0, self.__size):
+                result[index] = self.__value[index] * _other
+            return result
+        else:
             raise ValueError("Wrong param type, a vector or matrix param is needed")
-        if not _other.size == self.__size:
-            raise ValueError("Different size between two vectors with {} and {}".format(_other.size, self.__size))
-        result = 0.0
-        for index in range(0, self.__size):
-            result += self.__value[index] * _other[index]
-        return result
 
     def __add__(self, _other):
         if not isinstance(_other, Vector):
@@ -118,7 +124,7 @@ class Vector:
         return vector
 
     @staticmethod
-    def generate(_length, _random_init=False, _default_value=0.0):
+    def generate(_length, _random_init=True, _default_value=0.0):
         if not _length > 0:
             raise ValueError("Vector length must bigger than 0")
         vector = Vector()
@@ -140,7 +146,7 @@ def load(_filename):
     return Vector().load(_filename)
 
 
-def generate(_length, _random_init=False, _default_value=0.0):
+def generate(_length, _random_init=True, _default_value=0.0):
     return Vector.generate(_length, _random_init, _default_value)
 
 
@@ -169,6 +175,9 @@ def test_vector():
     v4 = Vector()
     print("test_load_v4: {}".format(v4.load("./input_vector.text")))
     print("test_v4: {}".format(v4))
+    # TODO
+    # for value in v4:
+    #     print(value)
 
 
 if __name__ == '__main__':
